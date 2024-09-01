@@ -20,8 +20,7 @@ tab1, tab2, tab3 = st.tabs(["Estimation Tool", "About", "Get in Touch"])
 
 with tab1:
     # Main App
-    st.image(logo, width=800)
-    st.title('Namma Yatri - Driver Cancellation and Fare Estimator')
+    st.image(logo)
 
     # Input fields
     ward = st.selectbox('Select Origin Area (just start typing)', options=le_ward.classes_)
