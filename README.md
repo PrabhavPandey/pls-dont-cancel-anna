@@ -1,6 +1,11 @@
-# Namma Yatri - Driver Cancellation and Fare Estimator
+![Logo](./nammayatri.png)
+# Driver Cancellation and Fare Estimator
 
 This Streamlit application provides a tool for estimating driver cancellation rates and fares for Namma Yatri rides.
+
+## Data
+
+This application uses the Namma Yatri Open Dataset  (Nov 2022 onwards). Ensure that the required CSV files are present in the `data/` directory.
 
 ## Setup and Deployment
 
@@ -9,10 +14,6 @@ This Streamlit application provides a tool for estimating driver cancellation ra
 3. Run the Streamlit app: `streamlit run streamlit_app.py`
 
 The application will automatically run the necessary setup scripts on first launch.
-
-## Data
-
-This application uses the Namma Yatri Open Dataset. Ensure that the required CSV files are present in the `data/` directory.
 
 ## Models
 
