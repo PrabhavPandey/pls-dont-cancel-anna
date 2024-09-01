@@ -1,0 +1,7 @@
+env/
+*.pyc
+__pycache__/
+.DS_Store
+setup_complete.txt
+data/*.csv
+models/*.joblib
