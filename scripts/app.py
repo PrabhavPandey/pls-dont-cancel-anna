@@ -16,7 +16,7 @@ logo = Image.open('./assets/nammayatri.png')
 # Load data for visualizations
 all_time_data = pd.read_csv('data/preprocessed_all_time_data.csv')
 
-tab1, tab2, tab3 = st.tabs(["Estimation Tool", "About", "Get in Touch"])
+tab1, tab2, tab3 = st.tabs(["⚙️Estimation Tool", "✍️About", "👋Get in Touch"])
 
 with tab1:
     # Main App
@@ -35,14 +35,11 @@ with tab1:
     input_data = pd.DataFrame([[ward_encoded, day_encoded, distance]], columns=['Ward', 'Day', 'Average Distance per Trip (km)'])
     estimated_fare = rf_fare.predict(input_data)[0]
     cancellation_rate = rf_cancellation.predict(input_data)[0]
-
     # Display results
     st.header('Predictions')
     st.write(f'Estimated Fare: ₹{estimated_fare:.2f}')
     st.write(f'Estimated Driver Cancellation Rate: {cancellation_rate:.2%}')
-
-    # Visualizations
-    st.header('Data Insights')
+    st.divider()
 
     # Line Graph for Cancellation Rates by Ward
     st.subheader('Driver Cancellation Rates by Ward')
@@ -54,23 +51,38 @@ with tab1:
     lowest_ward = sorted_data.iloc[0:1]
     highest_ward = sorted_data.iloc[-1:]
 
-    # Choose three random wards excluding the selected one
-    random_wards = sorted_data.sample(3, random_state=42)
-    random_wards = pd.concat([random_wards, all_time_data[all_time_data['Ward'] == ward]])
+    # Calculate the average cancellation rate
+    average_cancellation_rate = sorted_data[sort_by].mean()
+    average_ward = pd.DataFrame({'Ward': ['Average'], 'Driver Cancellation Rate': [average_cancellation_rate]})
 
-    # Combine the chosen wards for the plot
-    wards_to_plot = pd.concat([lowest_ward, highest_ward, random_wards])
+    wards_to_plot = pd.concat([lowest_ward, highest_ward, average_ward, all_time_data[all_time_data['Ward'] == ward]])
 
-    # Plot
+    # Ensure the selected ward is in between the lowest and highest by sorting the DataFrame
+    wards_to_plot = wards_to_plot.sort_values(by=sort_by).reset_index(drop=True)
+
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.lineplot(data=wards_to_plot, x='Ward', y=sort_by, marker='o', ax=ax)
 
-    # Highlight the selected ward
+    # Highlight the selected ward, lowest, highest, and average wards
     selected_ward_rate = all_time_data[all_time_data['Ward'] == ward]['Driver Cancellation Rate'].values[0]
     ax.plot(ward, selected_ward_rate, marker='o', markersize=10, color='red', label=f'Selected Ward: {ward}')
+
+    lowest_ward_name = lowest_ward['Ward'].values[0]
+    lowest_ward_rate = lowest_ward[sort_by].values[0]
+    ax.plot(lowest_ward_name, lowest_ward_rate, marker='o', markersize=10, color='blue', label=f'Lowest: {lowest_ward_name}')
+
+    highest_ward_name = highest_ward['Ward'].values[0]
+    highest_ward_rate = highest_ward[sort_by].values[0]
+    ax.plot(highest_ward_name, highest_ward_rate, marker='o', markersize=10, color='green', label=f'Highest: {highest_ward_name}')
+
+    average_ward_rate = average_cancellation_rate
+    ax.plot('Average', average_ward_rate, marker='o', markersize=10, color='orange', label='Average')
+
     ax.legend()
     plt.xticks(rotation=45)
     st.pyplot(fig)
+    
+    st.divider()
 
     # Historical data for selected ward
     st.subheader(f'Historical Data for {ward}')
