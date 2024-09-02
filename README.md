@@ -1,4 +1,4 @@
-![Logo](./nammayatri.png)
+![Logo](./assets/nammayatri.png)
 # Driver Cancellation and Fare Estimator
 
 This Streamlit application provides a tool for estimating driver cancellation rates and fares for Namma Yatri rides.

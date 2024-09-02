@@ -11,7 +11,7 @@ rf_cancellation = joblib.load('models/cancellation_model.joblib')
 rf_fare = joblib.load('models/fare_model.joblib')
 le_ward = joblib.load('models/ward_encoder.joblib')
 le_day = joblib.load('models/day_encoder.joblib')
-logo = Image.open('./nammayatri.png')
+logo = Image.open('./assets/nammayatri.png')
 
 # Load data for visualizations
 all_time_data = pd.read_csv('data/preprocessed_all_time_data.csv')

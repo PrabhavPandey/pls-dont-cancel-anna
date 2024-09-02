@@ -33,7 +33,7 @@ def main():
         st.experimental_rerun()
     else:
         # Run the main app
-        exec(open("app.py").read())
+        exec(open("./scripts/app.py").read())
         
 if __name__ == "__main__":
     main()
